@@ -4,6 +4,7 @@ import com.connectedcoops.validationmicroservice.application.SensorValidationTas
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,9 +18,8 @@ public class SensorMalfunctionController {
     }
 
     @GetMapping("/validation-task")
-    public String executeValidationTask() {
-        sensorValidationTask.executeValidationTask();
-        return "Validation task executed!";
+    public String executeValidationTask(@RequestParam int sensor_ID) {
+        return sensorValidationTask.executeValidationTask(sensor_ID);
     }
 }
 

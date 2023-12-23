@@ -10,17 +10,16 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 public class LastSensorReadingRepository {
-    String userUUID = "KVwb8RaoiTbxZp2lna5SD9fONZR2";
+    String userUUID = "0t1hKAe4PKZtrTsPM95LSlNjTfq1";
     @Autowired
     private Firestore firestore;
-    public List<QueryDocumentSnapshot> querySensorReadings(List<String> activeSensors)
+    public DocumentSnapshot querySensorReadings(int sensor_ID)
             throws ExecutionException, InterruptedException {
         CollectionReference readingsCollection = firestore.collection("users").document(userUUID).collection("last_sensor_readings");
 
-        Query query = readingsCollection.whereIn(FieldPath.documentId(), activeSensors);
-        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        ApiFuture<DocumentSnapshot> documentSnapshot = readingsCollection.document(String.valueOf(sensor_ID)).get();
 
-        return querySnapshot.get().getDocuments();
+        return documentSnapshot.get();
     }
 
 }

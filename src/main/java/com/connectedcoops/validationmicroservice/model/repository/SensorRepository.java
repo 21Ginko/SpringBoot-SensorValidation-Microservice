@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @Component
 public class SensorRepository {
-    String userUUID = "KVwb8RaoiTbxZp2lna5SD9fONZR2";
+    String userUUID = "0t1hKAe4PKZtrTsPM95LSlNjTfq1";
     @Autowired
     private Firestore firestore;
     public List<String> queryActiveSensors() throws ExecutionException, InterruptedException {
@@ -22,7 +23,7 @@ public class SensorRepository {
 
         List<String> activeSensors = Lists.newArrayList();
         for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
-            activeSensors.add(document.getLong("sensor_ID").toString());
+            activeSensors.add(Objects.requireNonNull(document.getLong("sensor_ID")).toString());
         }
 
         return activeSensors;

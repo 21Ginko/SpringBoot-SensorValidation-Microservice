@@ -2,6 +2,7 @@ package com.connectedcoops.validationmicroservice.application;
 
 import com.connectedcoops.validationmicroservice.model.repository.LastSensorReadingRepository;
 import com.connectedcoops.validationmicroservice.model.repository.SensorRepository;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +21,22 @@ public class SensorValidationTask {
         this.sensorMalfunctionCheck = sensorMalfunctionCheck;
     }
 
-    public void executeValidationTask() {
+    public String executeValidationTask(int sensor_ID) {
         try {
             List<String> activeSensors = sensorRepository.queryActiveSensors();
 
-            List<QueryDocumentSnapshot> sensorReadings = lastSensorReadingRepository.querySensorReadings(activeSensors);
+            if (activeSensors.contains(String.valueOf(sensor_ID))) {
+                DocumentSnapshot sensorReadings = lastSensorReadingRepository.querySensorReadings(sensor_ID);
+                return sensorMalfunctionCheck.checkMalfunctioningSensors(sensorReadings);
+            } else {
+                return "El sensor consultado con ID " + sensor_ID + " se encuentra en estado INACTIVO.";
+            }
 
-            sensorMalfunctionCheck.checkMalfunctioningSensors(sensorReadings);
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 }
