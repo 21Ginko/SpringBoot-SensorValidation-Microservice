@@ -14,7 +14,12 @@ import java.util.concurrent.ExecutionException;
 public class SensorRepository {
     String userUUID = "0t1hKAe4PKZtrTsPM95LSlNjTfq1";
     @Autowired
-    private Firestore firestore;
+    private final Firestore firestore;
+
+    public SensorRepository(Firestore firestore) {
+        this.firestore = firestore;
+    }
+
     public List<String> queryActiveSensors() throws ExecutionException, InterruptedException {
         CollectionReference sensorsCollection = firestore.collection("users").document(userUUID).collection("sensors");
 

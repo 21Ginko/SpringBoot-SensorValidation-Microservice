@@ -1,18 +1,24 @@
 package com.connectedcoops.validationmicroservice.model.repository;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Component
 public class LastSensorReadingRepository {
     String userUUID = "0t1hKAe4PKZtrTsPM95LSlNjTfq1";
     @Autowired
-    private Firestore firestore;
+    private final Firestore firestore;
+
+    public LastSensorReadingRepository(Firestore firestore) {
+        this.firestore = firestore;
+    }
+
     public DocumentSnapshot querySensorReadings(int sensor_ID)
             throws ExecutionException, InterruptedException {
         CollectionReference readingsCollection = firestore.collection("users").document(userUUID).collection("last_sensor_readings");

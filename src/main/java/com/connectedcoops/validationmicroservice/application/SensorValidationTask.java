@@ -3,7 +3,6 @@ package com.connectedcoops.validationmicroservice.application;
 import com.connectedcoops.validationmicroservice.model.repository.LastSensorReadingRepository;
 import com.connectedcoops.validationmicroservice.model.repository.SensorRepository;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
